@@ -12,12 +12,12 @@ from pytorch_tabular import TabularModel
 # Adjust to fit data
 tab_transformer_configuration = TabTransformerConfig(
     task="classification",
-    num_features=10,
-    num_classes=2,
-    embedding_dim=8,
-    num_heads=4,
-    num_transformer_layers=2,
-    mlp_hidden_dims=[64, 32],
+    num_features=8,
+    num_classes=9999999, # Cannot determine, will look
+    embedding_dim=1024,
+    num_heads=8,
+    num_transformer_layers=8,
+    mlp_hidden_dims=[512, 256, 128, 64],
 )
 
 class TabTransformerModel(nn.Module):
