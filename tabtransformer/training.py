@@ -6,9 +6,15 @@ import pandas as pd
 from pytorch_tabular.models.tab_transformer import TabTransformerConfig
 from pytorch_tabular.config import OptimizerConfig
 from pytorch_tabular.config import TrainerConfig
+from pytorch_tabular.config import ExperimentConfig
 
 from model import tab_transformer_model
 from preprocessing import train_data, test_data
+
+# Enables TensorBoard
+experiment_configuration = ExperimentConfig(
+    log_target = 'tensorboard'
+)
 
 # Early stopping and checkpoint saving is enabled by default
 training_configuration = TrainerConfig(
@@ -17,7 +23,10 @@ training_configuration = TrainerConfig(
     accelerator = 'gpu',
     min_epochs = 10,
     checkpoints_path = '../models/checkpoints',
-    auto_lr_find = True
+    auto_lr_find = True,
+    load_best = True,
+    checkpoints = "f1_score",
+    early_stopping_mode = 'min'
 )
 
 # Defaults to Adam Optimizer

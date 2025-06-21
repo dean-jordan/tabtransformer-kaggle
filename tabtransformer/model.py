@@ -8,6 +8,8 @@ from training import training_configuration
 
 from pytorch_tabular.models.tab_transformer import TabTransformerConfig
 from pytorch_tabular import TabularModel
+from sklearn.metrics import accuracy_score, f1_score, precision_score
+from pytorch_tabular.models.common.heads import LinearHeadConfig
 
 # Adjust to fit data
 tab_transformer_configuration = TabTransformerConfig(
@@ -18,8 +20,12 @@ tab_transformer_configuration = TabTransformerConfig(
     num_heads=8,
     num_transformer_layers=8,
     mlp_hidden_dims=[512, 256, 128, 64],
-    loss='', # Will decide
-    metrics=['accuracy', 'f1_score', 'mean_average_precision']
+    loss=nn.PairwiseDistance(),
+    metrics=['accuracy', 'f1_score', 'precision_score'],
+    ff_dropout=0.5,
+    attn_dropout=0.5,
+    add_norm_dropout=0.5,
+    embedding_dropout=0.5
 )
 
 class TabTransformerModel(nn.Module):
@@ -37,3 +43,10 @@ tab_transformer_model = TabularModel(
     trainer_config = training_configuration,
     verbose = True
 )
+
+# Mainly to set dropout
+head_configuration = LinearHeadConfig(
+    layers = '',
+    dropout = 0.5,
+    initialization = 'kaiming'
+).__dict__
