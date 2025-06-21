@@ -5,6 +5,7 @@ import pytorch_tabular
 from preprocessing import data_configuration
 from training import optimizer_configuration
 from training import training_configuration
+from training import experiment_configuration
 
 from pytorch_tabular.models.tab_transformer import TabTransformerConfig
 from pytorch_tabular import TabularModel
@@ -18,6 +19,7 @@ tab_transformer_configuration = TabTransformerConfig(
     num_classes=9999999, # Cannot determine, will look
     embedding_dim=1024,
     num_heads=8,
+    num_attn_blocks=8,
     num_transformer_layers=8,
     mlp_hidden_dims=[512, 256, 128, 64],
     loss=nn.PairwiseDistance(),
@@ -25,7 +27,10 @@ tab_transformer_configuration = TabTransformerConfig(
     ff_dropout=0.5,
     attn_dropout=0.5,
     add_norm_dropout=0.5,
-    embedding_dropout=0.5
+    embedding_dropout=0.5,
+    input_embed_dim=1024,
+    transformer_head_dim=1024,
+    transformer_activation='ReLU'
 )
 
 class TabTransformerModel(nn.Module):
@@ -41,7 +46,9 @@ tab_transformer_model = TabularModel(
     model_config = tab_transformer_configuration,
     optimizer_config = optimizer_configuration,
     trainer_config = training_configuration,
-    verbose = True
+    verbose = True,
+    suppress_lightning_logger=True,
+    experiment_config = experiment_configuration
 )
 
 # Mainly to set dropout
