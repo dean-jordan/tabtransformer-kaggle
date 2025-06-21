@@ -8,11 +8,9 @@ from pytorch_tabular.config import OptimizerConfig
 from pytorch_tabular.config import TrainerConfig
 
 from model import tab_transformer_model
+from preprocessing import preprocessed_data
 
-train_data_path = '../data/train.csv'
-train_data = pd.read_csv(train_data_path)
-
-trainer_configuration = TrainerConfig(
+training_configuration = TrainerConfig(
     batch_size = 64,
     max_epochs = 200
 )
@@ -20,4 +18,4 @@ trainer_configuration = TrainerConfig(
 # Defaults to Adam Optimizer
 optimizer_configuration = OptimizerConfig()
 
-tab_transformer_model.fit(train=train_data)
+tab_transformer_model.fit(train=preprocessed_data)
