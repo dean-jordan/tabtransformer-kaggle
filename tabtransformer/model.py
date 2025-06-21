@@ -18,6 +18,8 @@ tab_transformer_configuration = TabTransformerConfig(
     num_heads=8,
     num_transformer_layers=8,
     mlp_hidden_dims=[512, 256, 128, 64],
+    loss='', # Will decide
+    metrics=['accuracy', 'f1_score', 'mean_average_precision']
 )
 
 class TabTransformerModel(nn.Module):
